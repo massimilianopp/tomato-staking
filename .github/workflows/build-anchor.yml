@@ -1,0 +1,38 @@
+name: Build Anchor Program
+on:
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust (stable)
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Solana CLI
+        run: |
+          sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
+          echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
+          solana --version
+
+      - name: Install Anchor via avm
+        run: |
+          cargo install --git https://github.com/coral-xyz/anchor avm --locked --force
+          ~/.cargo/bin/avm install 0.32.1
+          ~/.cargo/bin/avm use 0.32.1
+          anchor --version
+
+      - name: Build
+        run: anchor build
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: anchor-build
+          path: |
+            target/deploy/tomato_staking.so
+            target/deploy/tomato_staking-keypair.json
+            target/idl/tomato_staking.json
