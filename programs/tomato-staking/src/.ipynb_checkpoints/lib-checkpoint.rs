@@ -4,7 +4,7 @@ use anchor_spl::{
     token::{self, Mint, Token, TokenAccount, Transfer},
 };
 
-declare_id!("11111111111111111111111111111111"); // remplacé à build
+declare_id!("7pYcN9xjABNCxLeWsmWGc3XiPT4bNHvFuWftCfUMeVZF"); // remplacé à build
 
 const SCALE: u128 = 1_000_000_000_000_000_000; // 1e18 pour précision
 

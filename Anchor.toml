@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-tomato_staking = "<REPLACE_WITH_PROGRAM_ID>"
+tomato_staking = "7pYcN9xjABNCxLeWsmWGc3XiPT4bNHvFuWftCfUMeVZF"
 
 [registry]
 url = "https://api.apr.dev"
