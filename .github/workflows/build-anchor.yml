@@ -12,13 +12,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # FIX: Explicitly installing a modern Rust version (1.77.2) and the required BPF target.
-      # This ensures the Cargo version is new enough to read lock file version 4.
-      - name: Install Rust (1.77.2) and BPF Target
+      # FIX: Changed to use the default 'stable' Rust toolchain without specifying
+      # a version or the 'solana-bpf' target. The Solana CLI installation (below)
+      # should provide the correct Rust compiler for BPF builds.
+      - name: Install Rust (stable) for Cargo/AVM
         uses: dtolnay/rust-toolchain@stable
-        with:
-          toolchain: 1.77.2
-          targets: solana-bpf
 
       # Installs Solana CLI tools using a direct download mirror for stability
       - name: Install Solana CLI (mirror)
@@ -31,6 +29,7 @@ jobs:
       # Installs the Anchor Version Manager (avm) and sets a specific Anchor version (0.32.1)
       - name: Install Anchor via avm
         run: |
+          # Use cargo from the stable toolchain to install avm
           cargo install --git https://github.com/coral-xyz/anchor avm --locked --force
           # Use avm to install and set the desired Anchor version
           ~/.cargo/bin/avm install 0.32.1
