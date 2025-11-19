@@ -1,34 +1,44 @@
 name: Build Anchor Program
+
 on:
+  # Allows you to run this workflow manually from the Actions tab in GitHub
   workflow_dispatch: {}
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v4
 
+      # Uses the latest stable Rust toolchain
       - name: Install Rust (stable)
         uses: dtolnay/rust-toolchain@stable
 
+      # Installs Solana CLI tools using a direct download mirror for stability
       - name: Install Solana CLI (mirror)
         run: |
-          wget https://github.com/solana-labs/solana/releases/download/v1.18.17/solana-release-x86_64-unknown-linux-gnu.tar.bz2
+          wget [https://github.com/solana-labs/solana/releases/download/v1.18.17/solana-release-x86_64-unknown-linux-gnu.tar.bz2](https://github.com/solana-labs/solana/releases/download/v1.18.17/solana-release-x86_64-unknown-linux-gnu.tar.bz2)
           tar -xjf solana-release-x86_64-unknown-linux-gnu.tar.bz2
+          # Move the binaries to a directory in the system's PATH
           sudo mv solana-release/bin/* /usr/local/bin/
 
-
+      # Installs the Anchor Version Manager (avm) and sets a specific Anchor version (0.32.1)
       - name: Install Anchor via avm
         run: |
-          cargo install --git https://github.com/coral-xyz/anchor avm --locked --force
+          # Install avm globally
+          cargo install --git [https://github.com/coral-xyz/anchor](https://github.com/coral-xyz/anchor) avm --locked --force
+          # Use avm to install and set the desired Anchor version
           ~/.cargo/bin/avm install 0.32.1
           ~/.cargo/bin/avm use 0.32.1
+          # Verify the installed version
           anchor --version
 
-      - name: Build
+      - name: Build Program
         run: anchor build
 
+      # Uploads the compiled program files (artifacts) so you can download and use them
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
