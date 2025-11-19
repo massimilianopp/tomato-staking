@@ -19,7 +19,8 @@ jobs:
       # Installs Solana CLI tools using a direct download mirror for stability
       - name: Install Solana CLI (mirror)
         run: |
-          wget [https://github.com/solana-labs/solana/releases/download/v1.18.17/solana-release-x86_64-unknown-linux-gnu.tar.bz2](https://github.com/solana-labs/solana/releases/download/v1.18.17/solana-release-x86_64-unknown-linux-gnu.tar.bz2)
+          # FIXED: Removed the extra markdown link brackets and parentheses.
+          wget https://github.com/solana-labs/solana/releases/download/v1.18.17/solana-release-x86_64-unknown-linux-gnu.tar.bz2
           tar -xjf solana-release-x86_64-unknown-linux-gnu.tar.bz2
           # Move the binaries to a directory in the system's PATH
           sudo mv solana-release/bin/* /usr/local/bin/
@@ -27,8 +28,8 @@ jobs:
       # Installs the Anchor Version Manager (avm) and sets a specific Anchor version (0.32.1)
       - name: Install Anchor via avm
         run: |
-          # Install avm globally
-          cargo install --git [https://github.com/coral-xyz/anchor](https://github.com/coral-xyz/anchor) avm --locked --force
+          # FIXED: Removed the extra markdown link brackets and parentheses.
+          cargo install --git https://github.com/coral-xyz/anchor avm --locked --force
           # Use avm to install and set the desired Anchor version
           ~/.cargo/bin/avm install 0.32.1
           ~/.cargo/bin/avm use 0.32.1
